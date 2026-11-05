@@ -1,0 +1,54 @@
+* { box-sizing: border-box; }
+
+html, body { width: 100%; }
+body {
+  display: block;
+  margin: 0;
+  min-height: 100vh;
+  font-family: system-ui, sans-serif;
+  background: #f3f4f8;
+  color: #1f2430;
+}
+#app { display: block; width: 100%; max-width: none; margin: 0; padding: 0; }
+
+nav { display: flex; gap: 16px; align-items: center; padding: 14px 32px; background: #1f2430; color: #fff; }
+nav a { color: #cfd6ff; text-decoration: none; font-weight: 600; }
+nav a.router-link-exact-active { color: #fff; }
+nav span { margin-left: auto; }
+
+main { width: 100%; max-width: none; padding: 24px 32px; }
+h1 { margin: 0 0 16px; }
+
+input, select, button { font: inherit; padding: 8px 12px; border: 1px solid #c9ced9; border-radius: 6px; background: #fff; }
+button { background: #4f6df5; border-color: #4f6df5; color: #fff; cursor: pointer; }
+button:hover:not(:disabled) { background: #3a56d8; }
+button:disabled { opacity: 0.5; cursor: default; }
+button[type='button'] { background: #fff; color: #1f2430; border-color: #c9ced9; }
+
+form > div { margin-bottom: 12px; }
+form label { display: flex; flex-direction: column; gap: 4px; max-width: 360px; }
+.error { color: #c0392b; margin: 4px 0; }
+
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 20px; }
+.filters > div { margin: 0; }
+
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 16px; }
+.card { background: #fff; border-radius: 10px; padding: 14px; box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1); display: flex; flex-direction: column; gap: 6px; }
+.card h3 { margin: 0; }
+.card p { margin: 0; color: #5b6272; font-size: 14px; }
+.card img, .card .placeholder { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 8px; background: #dfe3f0; }
+.badges { display: flex; gap: 8px; margin-top: auto; padding-top: 8px; }
+.badge { padding: 3px 10px; border-radius: 999px; font-size: 13px; background: #e8ecff; color: #3a56d8; }
+.badge.price { background: #e6f6ea; color: #1e7a3c; }
+
+.pager { display: flex; gap: 12px; align-items: center; justify-content: center; margin-top: 20px; }
+
+.game .meta, .comment .meta { color: #5b6272; font-size: 14px; }
+.game .badges { margin: 12px 0; flex-wrap: wrap; }
+.gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; margin: 16px 0; }
+.gallery img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; border-radius: 8px; }
+.description { max-width: 800px; line-height: 1.6; white-space: pre-line; }
+.actions { margin: 16px 0; }
+.comments { margin-top: 32px; max-width: 800px; }
+.comment { background: #fff; border-radius: 8px; padding: 12px; margin-bottom: 8px; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08); }
+.comment p { margin: 6px 0 0; }
