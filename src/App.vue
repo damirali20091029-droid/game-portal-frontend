@@ -16,11 +16,14 @@ async function logout() {
     <nav>
       <RouterLink to="/">Каталог</RouterLink>
       <template v-if="auth.isLoggedIn">
-        <span>{{ auth.user?.name }}</span>
+        <RouterLink to="/games/new">Опубликовать игру</RouterLink>
+        <RouterLink class="user-link" :to="`/users/${auth.user?.id}`">
+          {{ auth.user?.name }}
+        </RouterLink>
         <button @click="logout">Выйти</button>
       </template>
       <template v-else>
-        <RouterLink to="/login">Вход</RouterLink>
+        <RouterLink class="user-link" to="/login">Вход</RouterLink>
         <RouterLink to="/register">Регистрация</RouterLink>
       </template>
     </nav>

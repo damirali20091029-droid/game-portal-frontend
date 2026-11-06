@@ -11,4 +11,21 @@ api.interceptors.request.use((config) => {
   return config
 })
 
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    const isLogin = error.config?.url?.endsWith('/login')
+    if (error.response?.status === 401 && !isLogin && localStorage.getItem('token')) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('user')
+      window.location.href = '/login'
+    }
+    return Promise.reject(error)
+  },
+)
+
+export function errorMessage(error, fallback = 'Ошибка сервера, попробуйте позже') {
+  return error.response?.data?.message ?? fallback
+}
+
 export default api
