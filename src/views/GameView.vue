@@ -24,11 +24,18 @@ const editingId = ref(null)
 const editText = ref('')
 const commentError = ref('')
 
-const canManage = computed(
-  () => auth.isLoggedIn && (auth.isAdmin || auth.user?.id === game.value?.author?.id),
+// изменять игру может только автор, удалять — автор и администратор
+const isAuthor = computed(
+  () => auth.isLoggedIn && auth.user?.id === game.value?.author?.id,
 )
+const canDeleteGame = computed(() => isAuthor.value || (auth.isLoggedIn && auth.isAdmin))
 
+// изменять комментарий может только его автор, удалять — автор и администратор
 function canEditComment(comment) {
+  return auth.isLoggedIn && auth.user?.id === comment.user?.id
+}
+
+function canDeleteComment(comment) {
   return auth.isLoggedIn && (auth.isAdmin || auth.user?.id === comment.user?.id)
 }
 
@@ -177,8 +184,11 @@ onMounted(loadGame)
     </div>
     <p v-if="reactionError" class="error">{{ reactionError }}</p>
 
-    <div v-if="canManage" class="actions">
-      <button type="button" @click="removeGame">Удалить игру</button>
+    <div v-if="isAuthor || canDeleteGame" class="actions">
+      <RouterLink v-if="isAuthor" :to="`/games/${game.id}/edit`" class="button-link">
+        Изменить игру
+      </RouterLink>
+      <button v-if="canDeleteGame" type="button" @click="removeGame">Удалить игру</button>
     </div>
     <p v-if="error" class="error">{{ error }}</p>
 
@@ -208,9 +218,13 @@ onMounted(loadGame)
         </template>
         <template v-else>
           <p>{{ comment.body }}</p>
-          <div v-if="canEditComment(comment)" class="comment-actions">
-            <button type="button" @click="startEdit(comment)">Изменить</button>
-            <button type="button" @click="removeComment(comment)">Удалить</button>
+          <div v-if="canEditComment(comment) || canDeleteComment(comment)" class="comment-actions">
+            <button v-if="canEditComment(comment)" type="button" @click="startEdit(comment)">
+              Изменить
+            </button>
+            <button v-if="canDeleteComment(comment)" type="button" @click="removeComment(comment)">
+              Удалить
+            </button>
           </div>
         </template>
       </div>

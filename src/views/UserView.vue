@@ -1,6 +1,6 @@
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, RouterLink } from 'vue-router'
 import api, { errorMessage } from '../api'
 import { useAuthStore } from '../stores/auth'
 import GameCard from '../components/GameCard.vue'
@@ -18,10 +18,14 @@ const nameErrors = ref([])
 const saved = ref(false)
 
 const isOwner = computed(() => auth.isLoggedIn && auth.user?.id === profile.value?.id)
+// блокировать может администратор, но не самого себя
+const canModerate = computed(
+  () => auth.isLoggedIn && auth.isAdmin && auth.user?.id !== profile.value?.id,
+)
 const games = computed(() => profile.value?.games?.data ?? profile.value?.games ?? [])
 
-async function loadProfile() {
-  loading.value = true
+async function loadProfile(silent = false) {
+  if (!silent) loading.value = true
   notFound.value = false
   error.value = ''
   try {
@@ -52,8 +56,19 @@ async function saveName() {
   }
 }
 
-onMounted(loadProfile)
-watch(() => route.params.id, loadProfile)
+async function toggleBlock() {
+  error.value = ''
+  const action = profile.value.is_blocked ? 'unblock' : 'block'
+  try {
+    await api.post(`/users/${profile.value.id}/${action}`)
+    await loadProfile(true)
+  } catch (e) {
+    error.value = errorMessage(e)
+  }
+}
+
+onMounted(() => loadProfile())
+watch(() => route.params.id, () => loadProfile())
 </script>
 
 <template>
@@ -67,6 +82,11 @@ watch(() => route.params.id, loadProfile)
       Роль: {{ profile.role === 'admin' ? 'администратор' : 'пользователь' }} · На портале с
       {{ new Date(profile.created_at).toLocaleDateString('ru-RU') }}
     </p>
+
+    <p v-if="profile.is_blocked" class="error">Аккаунт заблокирован</p>
+    <button v-if="canModerate" type="button" @click="toggleBlock">
+      {{ profile.is_blocked ? 'Разблокировать' : 'Заблокировать' }}
+    </button>
 
     <form v-if="isOwner" class="name-form" @submit.prevent="saveName">
       <label>Имя <input v-model="name" type="text" /></label>

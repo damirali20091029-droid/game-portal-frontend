@@ -41,7 +41,7 @@ form label { display: flex; flex-direction: column; gap: 4px; max-width: 360px; 
 .badge { padding: 3px 10px; border-radius: 999px; font-size: 13px; background: #e8ecff; color: #3a56d8; }
 .badge.price { background: #e6f6ea; color: #1e7a3c; }
 
-.pager { display: flex; gap: 12px; align-items: center; justify-content: center; margin-top: 20px; }
+.pager { display: flex; gap: 12px; align-items: center; justify-content: center; margin-top: 20px; }я
 
 .game .meta, .comment .meta { color: #5b6272; font-size: 14px; }
 .game .badges { margin: 12px 0; flex-wrap: wrap; }
@@ -59,3 +59,13 @@ form label { display: flex; flex-direction: column; gap: 4px; max-width: 360px; 
 .comment-actions { display: flex; gap: 8px; margin-top: 8px; }
 .comments textarea, .name-form input { width: 100%; max-width: 800px; }
 .meta a { color: #4f6df5; }
+a.button-link { display: inline-block; padding: 8px 12px; border-radius: 6px; background: #4f6df5; color: #fff; text-decoration: none; }
+.actions { display: flex; gap: 8px; align-items: center; }
+.genre-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; max-width: 600px; }
+.genre-row span { flex: 1; }
+textarea { font: inherit; padding: 8px 12px; border: 1px solid #c9ced9; border-radius: 6px; background: #fff; }
+label.check { flex-direction: row; align-items: center; gap: 6px; max-width: none; margin: 4px 0; }
+a.button-link { display: inline-block; padding: 8px 12px; border-radius: 6px; background: #4f6df5; color: #fff; text-decoration: none; }
+.actions { display: flex; gap: 8px; align-items: center; }
+.genre-row { display: flex; gap: 8px; align-items: center; margin-bottom: 8px; max-width: 600px; }
+.genre-row span { flex: 1; }

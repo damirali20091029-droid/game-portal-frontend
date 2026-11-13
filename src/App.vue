@@ -6,8 +6,11 @@ const auth = useAuthStore()
 const router = useRouter()
 
 async function logout() {
-  await auth.logout()
-  router.push('/login')
+  try {
+    await auth.logout()
+  } finally {
+    router.push('/login')
+  }
 }
 </script>
 
@@ -17,6 +20,7 @@ async function logout() {
       <RouterLink to="/">Каталог</RouterLink>
       <template v-if="auth.isLoggedIn">
         <RouterLink to="/games/new">Опубликовать игру</RouterLink>
+        <RouterLink v-if="auth.isAdmin" to="/admin/genres">Жанры</RouterLink>
         <RouterLink class="user-link" :to="`/users/${auth.user?.id}`">
           {{ auth.user?.name }}
         </RouterLink>
