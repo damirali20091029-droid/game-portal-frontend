@@ -1,21 +1,36 @@
 <script setup>
+import { ref, computed, onMounted } from 'vue'
 import { RouterLink } from 'vue-router'
+import { loadCover } from '../coverCache'
 
-defineProps({ game: { type: Object, required: true } })
+const props = defineProps({ game: { type: Object, required: true } })
+
+const cover = ref(props.game.screenshots?.[0]?.url ?? null)
+const initial = computed(() => (props.game.title ?? '?').charAt(0).toUpperCase())
+const color = computed(() => `hsl(${(props.game.id * 47) % 360} 40% 26%)`)
+const rating = computed(() => Math.round(Number(props.game.rating ?? 0)))
+const isFree = computed(() => Number(props.game.price) === 0)
+const genres = computed(() => (props.game.genres ?? []).map((g) => g.name).join(', '))
+
+onMounted(async () => {
+  if (!cover.value) cover.value = await loadCover(props.game.id)
+})
 </script>
 
 <template>
-  <article class="card">
-    <img v-if="game.screenshots?.length" :src="game.screenshots[0].url" :alt="game.title" />
-    <div v-else class="placeholder"></div>
-    <h3>
-      <RouterLink :to="`/games/${game.id}`">{{ game.title }}</RouterLink>
-    </h3>
-    <p>Автор: {{ game.author?.name }}</p>
-    <p>{{ game.genres?.map((g) => g.name).join(', ') }}</p>
-    <div class="badges">
-      <span class="badge">Рейтинг {{ game.rating }}</span>
-      <span class="badge price">{{ Number(game.price) === 0 ? 'Бесплатно' : game.price + ' ₽' }}</span>
+  <RouterLink class="card" :to="`/games/${game.id}`">
+    <div class="cover">
+      <img v-if="cover" :src="cover" :alt="game.title" />
+      <div v-else class="placeholder" :style="{ background: color }">{{ initial }}</div>
+      <span class="rating-chip">{{ rating }}%</span>
     </div>
-  </article>
+    <div class="info">
+      <span class="genres">{{ genres }}</span>
+      <h3>{{ game.title }}</h3>
+      <span class="author">{{ game.author?.name }}</span>
+      <span class="price-line" :class="{ free: isFree }">
+        {{ isFree ? 'Бесплатно' : game.price + ' ₽' }}
+      </span>
+    </div>
+  </RouterLink>
 </template>

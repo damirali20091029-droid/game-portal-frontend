@@ -83,8 +83,8 @@ async function submit() {
   } catch (e) {
     const status = e.response?.status
     if (status === 422) errors.value = e.response.data.errors ?? {}
-    else if (status === 403) message.value = e.response.data.message ?? 'Публикация недоступна'
-    else if (status !== 401) message.value = 'Ошибка сервера, попробуйте позже'
+        else if (status === 409 || status === 403) message.value = e.response.data.message ?? 'Публикация недоступна'
+          else if (status !== 401) message.value = 'Ошибка сервера, попробуйте позже'
   } finally {
     loading.value = false
   }

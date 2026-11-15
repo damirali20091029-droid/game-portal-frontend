@@ -8,6 +8,7 @@ import GameEditView from '../views/GameEditView.vue'
 import GenresView from '../views/GenresView.vue'
 import UserView from '../views/UserView.vue'
 import { useAuthStore } from '../stores/auth'
+import StatsView from '../views/StatsView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -19,6 +20,7 @@ const router = createRouter({
     { path: '/games/:id/edit', name: 'game-edit', component: GameEditView, meta: { requiresAuth: true } },
     { path: '/games/:id', name: 'game', component: GameView },
     { path: '/users/:id', name: 'user', component: UserView },
+    { path: '/admin/stats', name: 'admin-stats', component: StatsView, meta: { requiresAuth: true, requiresAdmin: true } },
     {
       path: '/admin/genres',
       name: 'admin-genres',
