@@ -176,7 +176,12 @@ watch(
     <section>
       <div v-if="showHero && games[0]" class="hero">
         <div class="hero-cover">
-          <img v-if="heroCover" :src="heroCover" :alt="games[0].title" />
+          <img
+            v-if="heroCover"
+            :src="heroCover"
+            :alt="games[0].title"
+            @error="heroCover = null"
+          />
           <div
             v-else
             class="placeholder"

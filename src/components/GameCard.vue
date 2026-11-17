@@ -20,7 +20,7 @@ onMounted(async () => {
 <template>
   <RouterLink class="card" :to="`/games/${game.id}`">
     <div class="cover">
-      <img v-if="cover" :src="cover" :alt="game.title" />
+      <img v-if="cover" :src="cover" :alt="game.title" @error="cover = null" />
       <div v-else class="placeholder" :style="{ background: color }">{{ initial }}</div>
       <span class="rating-chip">{{ rating }}%</span>
     </div>

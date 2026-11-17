@@ -156,7 +156,13 @@ onMounted(loadGame)
     </div>
 
     <div v-if="game.screenshots?.length" class="gallery">
-      <img v-for="shot in game.screenshots" :key="shot.id" :src="shot.url" :alt="game.title" />
+      <img
+        v-for="shot in game.screenshots"
+        :key="shot.id"
+        :src="shot.url"
+        :alt="game.title"
+        @error="$event.target.style.display = 'none'"
+      />
     </div>
 
     <p class="description">{{ game.description }}</p>
